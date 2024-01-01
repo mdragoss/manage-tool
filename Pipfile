@@ -1,0 +1,28 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "==4.2"
+djangorestframework = "==3.14"
+djangorestframework-simplejwt = "*"
+psycopg2-binary = "*"
+drf-spectacular = "*"
+
+[dev-packages]
+black = "*"
+isort = "*"
+pylint = "*"
+
+[requires]
+python_version = "3.11"
+
+[scripts]
+start = "python3 -m manage runserver"
+test = "python3 -m manage test"
+migrations = "python3 -m manage makemigrations"
+migrate = "python3 -m manage migrate"
+fix = "python3 -m pylint --recursive=y ./"
+black = "python3 -m black -S --line-length=79 ./"
+isort = "python3 -m isort ./"
