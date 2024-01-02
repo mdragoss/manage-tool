@@ -1,6 +1,6 @@
 from asyncio import Task
 
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from drf_spectacular.utils import (
     OpenApiParameter,
@@ -16,8 +16,8 @@ from rest_framework.generics import UpdateAPIView, ListAPIView
 
 from projects.models import Project, Task
 from projects.serializers import (
-    ProjectReturnSerilizer,
-    ProjectSerilizer,
+    ProjectReturnSerializer,
+    ProjectSerializer,
     TaskListSerializer,
     TaskRetrieveUpdateSerializer,
     TaskTimeTrackSerializer,
@@ -26,7 +26,7 @@ from projects.serializers import (
 
 # Create your views here.
 class ProjectViewSet(ModelViewSet):
-    serializer_class = ProjectSerilizer
+    serializer_class = ProjectSerializer
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
@@ -34,77 +34,77 @@ class ProjectViewSet(ModelViewSet):
 
     @extend_schema(
         responses={
-            200: ProjectSerilizer(many=True),
+            200: ProjectSerializer(many=True),
             401: OpenApiResponse(description='Unauthorized'),
         }
     )
     def list(self, request):
         projects = self.get_queryset()
-        serializer = ProjectSerilizer(projects, many=True)
+        serializer = ProjectSerializer(projects, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @extend_schema(
         responses={
-            201: ProjectSerilizer,
+            201: ProjectSerializer,
             400: OpenApiResponse(description='Bad Request'),
             401: OpenApiResponse(description='Unauthorized'),
         },
-        request=ProjectSerilizer,
+        request=ProjectSerializer,
     )
     def create(self, request):
-        serializer = ProjectSerilizer(data=request.data)
+        serializer = ProjectSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(created_by=request.user)
         return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 
     @extend_schema(
         responses={
-            201: ProjectSerilizer,
+            201: ProjectSerializer,
             401: OpenApiResponse(description='Unauthorized'),
             404: OpenApiResponse(description='Not found'),
         }
     )
     def retrieve(self, request, pk=None):
         project = get_object_or_404(self.get_queryset(), pk=pk)
-        serializer = ProjectSerilizer(project)
+        serializer = ProjectSerializer(project)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @extend_schema(
         responses={
-            201: ProjectReturnSerilizer,
+            201: ProjectReturnSerializer,
             400: OpenApiResponse(description='Bad Request'),
             401: OpenApiResponse(description='Unauthorized'),
             404: OpenApiResponse(description='Not found'),
         },
-        request=ProjectSerilizer,
+        request=ProjectSerializer,
     )
     def update(self, request, pk=None):
         data = request.data
         data['modified_at'] = timezone.now()
         project = get_object_or_404(self.get_queryset(), pk=pk)
-        serializer = ProjectSerilizer(project, data=data)
+        serializer = ProjectSerializer(project, data=data)
         serializer.is_valid(raise_exception=True)
         result = serializer.save()
-        return_data = ProjectReturnSerilizer(result)
+        return_data = ProjectReturnSerializer(result)
         return Response(return_data.data, status=status.HTTP_200_OK)
 
     @extend_schema(
         responses={
-            201: ProjectReturnSerilizer,
+            201: ProjectReturnSerializer,
             400: OpenApiResponse(description='Bad Request'),
             401: OpenApiResponse(description='Unauthorized'),
             404: OpenApiResponse(description='Not found'),
         },
-        request=ProjectSerilizer,
+        request=ProjectSerializer,
     )
     def partial_update(self, request, pk=None):
         data = request.data
         data['modified_at'] = timezone.now()
         project = get_object_or_404(self.get_queryset(), pk=pk)
-        serializer = ProjectSerilizer(project, data=request.data, partial=True)
+        serializer = ProjectSerializer(project, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         result = serializer.save()
-        return_data = ProjectReturnSerilizer(result)
+        return_data = ProjectReturnSerializer(result)
         return Response(return_data.data, status=status.HTTP_200_OK)
 
     @extend_schema(
@@ -113,7 +113,7 @@ class ProjectViewSet(ModelViewSet):
             401: OpenApiResponse(description='Unauthorized'),
             404: OpenApiResponse(description='Not found'),
         },
-        request=ProjectSerilizer,
+        request=ProjectSerializer,
     )
     def destroy(self, request, pk=None):
         raise NotImplemented('Not implemented')

@@ -1,17 +1,15 @@
-from attr import field, fields
 from rest_framework import serializers
 
 from projects.models import Project, Task, TaskTimeTrack
-from users.serializers import UserSerializer
 
 
-class ProjectSerilizer(serializers.ModelSerializer):
+class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         exclude = ('created_at', 'modified_at', 'created_by')
 
 
-class ProjectReturnSerilizer(serializers.ModelSerializer):
+class ProjectReturnSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         exclude = ('id', 'created_by')
@@ -31,7 +29,7 @@ class TaskListSerializer(serializers.ModelSerializer):
 
 
 class TaskRetrieveUpdateSerializer(serializers.ModelSerializer):
-    project = ProjectSerilizer(read_only=True)
+    project = ProjectSerializer(read_only=True)
 
     class Meta:
         model = Task
@@ -54,7 +52,8 @@ class TaskTimeTrackSerializer(serializers.ModelSerializer):
         if time_tracked:
             if start_time < time_tracked.end_time:
                 raise serializers.ValidationError(
-                    {'detail': 'Start time should be greater than last logged time.'}
+                    {'detail': 'Start time should be greater than last '
+                               'logged time.'}
                 )
 
         if start_time > end_time:

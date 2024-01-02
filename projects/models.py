@@ -8,7 +8,7 @@ from users.models import User
 class Project(models.Model):
     class ProjectPhase(models.TextChoices):
         INITIATION = 'INITIATION', _('Concept Phase')
-        PLANNING = 'PLANNING', _('Definiton Phase')
+        PLANNING = 'PLANNING', _('Definition Phase')
         EXECUTION = 'EXECUTION', _('Execution Phase')
         CONTROL = 'CONTROL', _('Control Phase')
         CLOSED = 'CLOSED', _('Closed Phase')
@@ -16,7 +16,9 @@ class Project(models.Model):
     project_name = models.CharField(max_length=100)
     description = models.TextField()
     phase = models.CharField(
-        max_length=10, choices=ProjectPhase.choices, default=ProjectPhase.INITIATION
+        max_length=10,
+        choices=ProjectPhase.choices,
+        default=ProjectPhase.INITIATION
     )
     created_at = models.DateTimeField(default=timezone.now)
     modified_at = models.DateTimeField(null=True)
@@ -75,8 +77,8 @@ class TaskTimeTrack(models.Model):
 #     sender = models.ForeignKey(
 #         User, on_delete=models.SET_NULL, null=True, related_name="sender"
 #     )
-#     reciever = models.ForeignKey(
-#         User, on_delete=models.SET_NULL, null=True, related_name="reciever"
+#     receiver = models.ForeignKey(
+#         User, on_delete=models.SET_NULL, null=True, related_name="receiver"
 #     )
 
 #     message = models.CharField(max_length=10000)
@@ -89,7 +91,7 @@ class TaskTimeTrack(models.Model):
 #         verbose_name_plural = "Message"
 
 #     def __str__(self):
-#         return f"{self.sender} - {self.reciever}"
+#         return f"{self.sender} - {self.receiver}"
 
 #     @property
 #     def sender_profile(self):
@@ -97,6 +99,6 @@ class TaskTimeTrack(models.Model):
 #         return sender_profile
 
 #     @property
-#     def reciever_profile(self):
-#         reciever_profile = User.objects.get(user=self.reciever)
-#         return reciever_profile
+#     def receiver_profile(self):
+#         receiver_profile = User.objects.get(user=self.receiver)
+#         return receiver_profile

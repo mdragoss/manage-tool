@@ -5,7 +5,6 @@ from rest_framework.generics import GenericAPIView, RetrieveUpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
-from yaml import serialize
 
 from users.models import User
 from users.serializers import (LogInSerializer, LogOutSerializer,
@@ -60,12 +59,12 @@ class UserView(RetrieveUpdateAPIView):
     serializer_class = UserSerializer
     permission_classes = (IsAuthenticated,)
 
-    def get_queryset(self, request):
-        return User.objects.get(email=request.user.email)
+    def get_queryset(self):
+        return User.objects.get(email=self.request.user.email)
 
     @extend_schema(responses=UserSerializer)
     def get(self, request, *args, **kwargs):
-        instance = self.get_queryset(request)
+        instance = self.get_queryset()
         serializer = UserSerializer(instance=instance)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 

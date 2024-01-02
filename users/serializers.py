@@ -1,4 +1,3 @@
-from attr import fields
 from django.contrib.auth import authenticate
 from django.utils import timezone
 from rest_framework import serializers
@@ -14,7 +13,8 @@ class LogInSerializer(serializers.Serializer):
     refresh = serializers.CharField(read_only=True)
 
     default_error_messages = {
-        'no_active_account': 'No active account found with the given credentials.'
+        'no_active_account': 'No active account found with the given '
+                             'credentials.'
     }
 
     def validate(self, attr):
