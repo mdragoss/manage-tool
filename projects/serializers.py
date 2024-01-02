@@ -52,8 +52,10 @@ class TaskTimeTrackSerializer(serializers.ModelSerializer):
         if time_tracked:
             if start_time < time_tracked.end_time:
                 raise serializers.ValidationError(
-                    {'detail': 'Start time should be greater than last '
-                               'logged time.'}
+                    {
+                        'detail': 'Start time should be greater than last '
+                        'logged time.'
+                    }
                 )
 
         if start_time > end_time:
@@ -65,7 +67,7 @@ class TaskTimeTrackSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 {'detail': 'End time should be different from start.'}
             )
-        
+
         # many other validation could be
         return attrs
 

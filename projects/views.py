@@ -101,7 +101,9 @@ class ProjectViewSet(ModelViewSet):
         data = request.data
         data['modified_at'] = timezone.now()
         project = get_object_or_404(self.get_queryset(), pk=pk)
-        serializer = ProjectSerializer(project, data=request.data, partial=True)
+        serializer = ProjectSerializer(
+            project, data=request.data, partial=True
+        )
         serializer.is_valid(raise_exception=True)
         result = serializer.save()
         return_data = ProjectReturnSerializer(result)

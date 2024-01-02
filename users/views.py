@@ -7,8 +7,12 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from users.models import User
-from users.serializers import (LogInSerializer, LogOutSerializer,
-                               RegisterSerializer, UserSerializer)
+from users.serializers import (
+    LogInSerializer,
+    LogOutSerializer,
+    RegisterSerializer,
+    UserSerializer,
+)
 
 
 # Create your views here.
@@ -39,7 +43,6 @@ class RegisterView(GenericAPIView):
         responses={200: RegisterSerializer, 400: OpenApiTypes.OBJECT}
     )
     def post(self, request, *args, **kwargs):
-
         request_data = request.data
         serializer = self.get_serializer(data=request_data, *args, **kwargs)
         serializer.is_valid(raise_exception=True)

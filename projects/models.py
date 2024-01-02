@@ -18,7 +18,7 @@ class Project(models.Model):
     phase = models.CharField(
         max_length=10,
         choices=ProjectPhase.choices,
-        default=ProjectPhase.INITIATION
+        default=ProjectPhase.INITIATION,
     )
     created_at = models.DateTimeField(default=timezone.now)
     modified_at = models.DateTimeField(null=True)

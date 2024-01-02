@@ -14,7 +14,7 @@ class LogInSerializer(serializers.Serializer):
 
     default_error_messages = {
         'no_active_account': 'No active account found with the given '
-                             'credentials.'
+        'credentials.'
     }
 
     def validate(self, attr):
