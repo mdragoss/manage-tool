@@ -10,7 +10,8 @@ API Endpoints
 - /api/projects/ - returns a list of projects created by the user and allows users to create a new project
 - /api/projects/<project_id>/ - returns details for a specific project and allows users to update or delete the project 
 - /api/tasks/ - returns a list of tasks assigned to the user and allows users to create a new task
-- /api/tasks/<task_id>/ - returns details for a specific task and allows users to update or delete the task. /api/- time-tracker/ - allows team members to track time spent on a task and view time entries
+- /api/tasks/<task_id>/ - returns details for a specific task and allows users to update or delete the task
+- /api/time-tracker/ - allows team members to track time spent on a task and view time entries
  
 
 # Steps to run
